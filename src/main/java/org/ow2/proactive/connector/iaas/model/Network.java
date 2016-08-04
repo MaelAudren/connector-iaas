@@ -21,5 +21,6 @@ public class Network {
 
     private Set<String> publicAddresses;
     private Set<String> privateAddresses;
+    private String macAddress;
 
 }

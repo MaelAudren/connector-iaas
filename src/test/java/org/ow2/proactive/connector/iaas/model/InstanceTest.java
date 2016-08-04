@@ -25,7 +25,7 @@ public class InstanceTest {
     @Test
     public void testConstructor() {
         Instance instance = new Instance("instance-id", "new-vm", "ubuntu", "1", "running",
-            HardwareFixtures.getHardware("1", "512"),NetworkFixtures.getNetwork("77.154.227.148", "1.0.0.2"), CredentialsFixtures.getCredentials("publicKeyName"),
+            HardwareFixtures.getHardware("1", "512"),NetworkFixtures.getNetwork("77.154.227.148", "1.0.0.2","fa:16:3e:43:ec:e3"), CredentialsFixtures.getCredentials("publicKeyName"),
             InstanceScriptFixture.simpleInstanceScriptNoscripts());
 
         assertThat(instance.getTag(), is("new-vm"));
@@ -34,10 +34,10 @@ public class InstanceTest {
     @Test
     public void testEqualsAndHashcode() {
         Instance instance1 = new Instance("instance-id", "new-vm", "ubuntu", "1", "running",
-            HardwareFixtures.getHardware("1", "512"),NetworkFixtures.getNetwork("77.154.227.148", "1.0.0.2"), CredentialsFixtures.getCredentials("publicKeyName"),
+            HardwareFixtures.getHardware("1", "512"),NetworkFixtures.getNetwork("77.154.227.148", "1.0.0.2", "fa:16:3e:43:ec:e3"), CredentialsFixtures.getCredentials("publicKeyName"),
             InstanceScriptFixture.simpleInstanceScriptNoscripts());
         Instance instance2 = new Instance("instance-id", "new-vm", "ubuntu", "1", "running",
-            HardwareFixtures.getHardware("1", "512"),NetworkFixtures.getNetwork("77.154.227.148", "1.0.0.2"), CredentialsFixtures.getCredentials("publicKeyName"),
+            HardwareFixtures.getHardware("1", "512"),NetworkFixtures.getNetwork("77.154.227.148", "1.0.0.2", "fa:16:3e:43:ec:e3"), CredentialsFixtures.getCredentials("publicKeyName"),
             InstanceScriptFixture.simpleInstanceScriptNoscripts());
 
         Set<Instance> instances = Sets.newHashSet(instance1, instance2);
