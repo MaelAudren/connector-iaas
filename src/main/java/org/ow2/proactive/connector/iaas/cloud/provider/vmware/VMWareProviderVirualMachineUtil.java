@@ -1,6 +1,7 @@
 package org.ow2.proactive.connector.iaas.cloud.provider.vmware;
 
 import java.rmi.RemoteException;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -18,6 +19,9 @@ import com.vmware.vim25.mo.ManagedEntity;
 import com.vmware.vim25.mo.ResourcePool;
 import com.vmware.vim25.mo.VirtualMachine;
 
+import javax.ws.rs.ClientErrorException;
+import javax.ws.rs.core.Response;
+
 
 @Component
 public class VMWareProviderVirualMachineUtil {
@@ -31,8 +35,9 @@ public class VMWareProviderVirualMachineUtil {
 
     public VirtualMachine searchVirtualMachineByName(String name, Folder rootFolder)
             throws InvalidProperty, RuntimeFault, RemoteException {
-        return (VirtualMachine) new InventoryNavigator(rootFolder).searchManagedEntity("VirtualMachine",
-                name);
+        return Optional.ofNullable( (VirtualMachine) new InventoryNavigator(rootFolder).searchManagedEntity("VirtualMachine",
+                name)).orElseThrow(() -> new ClientErrorException("The virtual machine "+name+ " could not be found",
+                Response.Status.BAD_REQUEST));
     }
 
     public Set<VirtualMachine> getAllVirtualMachinesByInfrastructure(Folder rootFolder,
@@ -48,7 +53,7 @@ public class VMWareProviderVirualMachineUtil {
 
         } catch (RemoteException e) {
             throw new RuntimeException(
-                "ERROR when retrieving VMWare istances for infrastructure : " + infrastructure, e);
+                "ERROR when retrieving VMWare instances for infrastructure : " + infrastructure, e);
         }
 
     }
