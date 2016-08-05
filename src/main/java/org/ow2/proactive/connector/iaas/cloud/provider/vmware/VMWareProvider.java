@@ -6,7 +6,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.NotSupportedException;
+import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
 import org.ow2.proactive.connector.iaas.cloud.provider.CloudProvider;
@@ -74,8 +76,10 @@ public class VMWareProvider implements CloudProvider {
         } catch (RemoteException e) {
             logger.error("ERROR when creating VMWare istance with : " + instance, e);
             throw new RuntimeException("ERROR when creating VMWare istance with : " + instance, e);
+        } catch (IndexOutOfBoundsException e){
+            throw new ClientErrorException("The property 'image' of the instance is ill-formed",
+                    Response.Status.BAD_REQUEST);
         }
-
     }
     
     
